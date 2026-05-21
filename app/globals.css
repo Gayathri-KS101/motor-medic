@@ -30,13 +30,11 @@ body {
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────
-   DESIGN SYSTEM
-   All colors MUST be HSL.
+   DESIGN SYSTEM — All colors MUST be HSL.
 ───────────────────────────────────────────── */
 
 @layer base {
   :root {
-    /* MotorMedic — Black / Red / Silver */
     --background: 0 0% 6%;
     --foreground: 0 0% 96%;
 
@@ -94,32 +92,23 @@ body {
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-
     --sidebar-background:        240 5.9% 10%;
     --sidebar-foreground:        240 4.8% 95.9%;
     --sidebar-primary:           224.3 76.3% 48%;
@@ -135,7 +124,6 @@ body {
   body {
     font-family: 'Inter', system-ui, sans-serif;
   }
-
   h1, h2, h3, .font-display {
     font-family: 'Bebas Neue', Impact, sans-serif;
     letter-spacing: 0.02em;
@@ -158,22 +146,18 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   MARQUEE  (shared utility, used in multiple sections)
+   MARQUEE
 ───────────────────────────────────────────── */
 
-/* Legacy class used elsewhere in the project */
 .marquee {
   animation: marquee 28s linear infinite;
 }
-.marquee:hover {
-  animation-play-state: paused;
-}
+.marquee:hover { animation-play-state: paused; }
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 
-/* Footer marquee (slightly slower, separate keyframe name to avoid conflict) */
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -181,27 +165,28 @@ body {
 .marquee-track {
   display: flex;
   width: max-content;
+  will-change: transform;
   animation: marquee-scroll 30s linear infinite;
 }
-.marquee-track:hover {
-  animation-play-state: paused;
-}
+.marquee-track:hover { animation-play-state: paused; }
 
-/* Soft fade mask on both edges */
 .marquee-fade {
   overflow: hidden;
   width: 100%;
+  min-width: 0;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
 }
 
 /* ─────────────────────────────────────────────
-   FOOTER — LAYOUT
+   FOOTER — ROOT
 ───────────────────────────────────────────── */
 
 .footer-root {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
   background: radial-gradient(
     ellipse 80% 60% at 50% 0%,
     rgba(110,8,8,0.42)  0%,
@@ -211,7 +196,6 @@ body {
   );
 }
 
-/* Grain texture — decorative overlay rendered behind all content */
 .footer-grain::before {
   content: '';
   position: absolute;
@@ -222,13 +206,14 @@ body {
   z-index: 0;
 }
 
-/* Stacks children above the grain layer */
 .footer-content {
   position: relative;
   z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
-/* Ambient crimson radial bloom at the top edge */
 .footer-bloom {
   position: absolute;
   top: 0;
@@ -241,34 +226,23 @@ body {
   z-index: 0;
 }
 
-/* 4-column info grid */
-.footer-grid {
-  max-width: 1420px;
-  margin: 0 auto;
-  padding: 3.2rem 1.6rem 2.4rem;
-  display: grid;
-  grid-template-columns: minmax(280px, 1.25fr) repeat(3, minmax(160px, 1fr));
-  gap: 3.5rem;
-}
-
 /* ─────────────────────────────────────────────
    FOOTER — DIVIDERS
 ───────────────────────────────────────────── */
 
-/* Metallic silver top-divider with soft blur halo */
 .silver-divider {
   height: 1px;
   position: relative;
   margin: 0 4%;
   background: linear-gradient(
     to right,
-    transparent            0%,
+    transparent 0%,
     rgba(200,200,210,0.08) 15%,
     rgba(220,215,225,0.55) 38%,
     rgba(255,252,255,0.85) 50%,
     rgba(220,215,225,0.55) 62%,
     rgba(200,200,210,0.08) 85%,
-    transparent           100%
+    transparent 100%
   );
 }
 .silver-divider::after {
@@ -280,7 +254,6 @@ body {
   opacity: 0.5;
 }
 
-/* Thin crimson separator between marquee and grid */
 .crimson-divider {
   height: 1px;
   margin: 0 6%;
@@ -299,13 +272,15 @@ body {
 ───────────────────────────────────────────── */
 
 .footer-brands-section {
-  padding: 3.5rem 0;
+  padding: 2.8rem 0;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-brands-label {
   text-align: center;
-  margin-bottom: 2.5rem;
-  /* optical centre offset for wide letter-spacing */
+  margin-bottom: 2rem;
   padding-left: 0.5em;
   font-size: 0.65rem;
   font-weight: 500;
@@ -314,35 +289,45 @@ body {
   color: rgba(190,185,195,0.55);
 }
 
+/* Mobile-first brand items */
 .brand-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 140px;
-  padding: 0 1.5rem;
+  min-width: 80px;
+  padding: 0 0.75rem;
   opacity: 0.5;
+  flex-shrink: 0;
   transition: opacity 0.35s ease, transform 0.35s ease;
   cursor: default;
 }
-.brand-item:hover {
-  opacity: 1;
-  transform: translateY(-3px);
-}
+.brand-item:hover { opacity: 1; transform: translateY(-3px); }
 
 .brand-item img {
-  height: 2.6rem;
+  height: clamp(1.5rem, 3.5vw, 2.6rem);
+  max-width: 64px;
   width: auto;
   object-fit: contain;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
   filter: grayscale(100%) brightness(1.6) contrast(0.9);
 }
 
 .brand-item span {
-  font-size: 0.6rem;
+  font-size: clamp(0.45rem, 1.1vw, 0.6rem);
   font-weight: 600;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(185,182,192,0.7);
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .brand-item { min-width: 110px; padding: 0 1.1rem; }
+}
+@media (min-width: 1100px) {
+  .brand-item { min-width: 140px; padding: 0 1.5rem; }
+  .brand-item img { height: 2.6rem; max-width: none; margin-bottom: 0.75rem; }
+  .brand-item span { font-size: 0.6rem; letter-spacing: 0.28em; }
 }
 
 /* ─────────────────────────────────────────────
@@ -355,27 +340,34 @@ body {
   gap: 0.7rem;
   margin-bottom: 1rem;
   text-decoration: none;
+  max-width: 100%;
 }
 
 .footer-brand-logo {
-  width: clamp(4.8rem, 7vw, 5.8rem);
+  width: clamp(3.8rem, 7vw, 5.8rem);
   height: auto;
   object-fit: contain;
   display: block;
+  flex-shrink: 0;
 }
 
 .footer-brand-wordmark {
-  width: clamp(10rem, 14vw, 13rem);
+  width: clamp(8rem, 14vw, 13rem);
   height: auto;
   object-fit: contain;
   display: block;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .footer-brand-desc {
   font-size: 0.8rem;
   color: rgba(170,165,178,0.7);
   line-height: 1.7;
-  max-width: 240px;
+  max-width: 100%;
+}
+@media (min-width: 640px) {
+  .footer-brand-desc { max-width: 280px; }
 }
 
 .footer-social-row {
@@ -398,7 +390,7 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   FOOTER — INFO LISTS (address / contact / hours)
+   FOOTER — INFO LISTS
 ───────────────────────────────────────────── */
 
 .footer-info-link {
@@ -409,10 +401,12 @@ body {
   gap: 0.5rem;
   text-decoration: none;
   transition: color 0.2s ease;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  width: 100%;
 }
-.footer-info-link:hover {
-  color: rgba(220,220,230,0.9);
-}
+.footer-info-link:hover { color: rgba(220,220,230,0.9); }
 
 .footer-info-list {
   list-style: none;
@@ -420,9 +414,11 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-width: 0;
 }
 .footer-info-list.gap-contact { gap: 0.85rem; }
-.footer-info-list.gap-hours   { gap: 0.7rem;  }
+.footer-info-list.gap-hours   { gap: 0.7rem; }
 
 .footer-hours-item {
   display: flex;
@@ -431,9 +427,7 @@ body {
   font-size: 0.82rem;
   color: rgba(155,150,165,0.75);
 }
-.footer-hours-item.closed {
-  color: rgba(130,125,140,0.55);
-}
+.footer-hours-item.closed { color: rgba(130,125,140,0.55); }
 
 .footer-hours-day {
   color: rgba(185,182,195,0.65);
@@ -453,6 +447,7 @@ body {
   align-items: center;
   justify-content: center;
   color: rgba(200,200,210,0.7);
+  flex-shrink: 0;
   transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 .social-btn:hover {
@@ -468,21 +463,32 @@ body {
 
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.05);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-bottom-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.4rem 2rem;
+  padding: 1.4rem 1.2rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.5rem;
   font-size: 0.7rem;
   color: rgba(120,115,130,0.6);
   letter-spacing: 0.04em;
 }
-.footer-bottom-inner p {
-  margin: 0;
+@media (max-width: 480px) {
+  .footer-bottom-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.3rem;
+  }
 }
+@media (min-width: 640px) {
+  .footer-bottom-inner { padding: 1.4rem 2rem; }
+}
+.footer-bottom-inner p { margin: 0; }

@@ -24,15 +24,10 @@ const HOURS = [
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-/** Column section heading — styled via .footer-col-heading in globals.css */
 const ColHeading = ({ children }: { children: ReactNode }) => (
   <h3 className="footer-col-heading">{children}</h3>
 );
 
-/**
- * Lucide icon with red accent colour.
- * Size + flexShrink kept inline — they are layout values, not theme values.
- */
 const AccentIcon = ({
   icon: Icon,
   faded = false,
@@ -55,22 +50,17 @@ const AccentIcon = ({
 export const Footer = () => (
   <footer id="contact" className="footer-root footer-grain">
 
-    {/* Ambient crimson bloom — decorative, aria-hidden */}
+    {/* Ambient crimson bloom */}
     <div aria-hidden="true" className="footer-bloom" />
 
-    {/* ── Silver reflective top divider ── */}
+    {/* Silver top divider */}
     <div className="footer-content" style={{ paddingTop: "2px" }}>
       <div className="silver-divider" />
     </div>
 
-    {/* ══════════════════════════════════════
-        BRANDS MARQUEE
-    ══════════════════════════════════════ */}
+    {/* ══ BRANDS MARQUEE ══ */}
     <div className="footer-content footer-brands-section">
-
       <p className="footer-brands-label">Trusted by drivers of</p>
-
-      {/* Duplicate array for seamless infinite loop */}
       <div className="marquee-fade">
         <div className="marquee-track">
           {[...BRANDS, ...BRANDS].map((brand, i) => (
@@ -81,99 +71,108 @@ export const Footer = () => (
           ))}
         </div>
       </div>
-
     </div>
 
-    {/* ── Thin crimson mid-separator ── */}
+    {/* Crimson mid-separator */}
     <div className="footer-content">
       <div className="crimson-divider" />
     </div>
 
-    {/* ══════════════════════════════════════
-        MAIN FOOTER GRID
-    ══════════════════════════════════════ */}
-    <div className="footer-content footer-grid">
+    {/* ══ MAIN FOOTER GRID ══
+        Tailwind responsive classes drive the column layout.
+        sm: = 640px+, lg: = 1024px+
+        On mobile (<640px): single column stack via grid-cols-1
+    */}
+    <div className="footer-content">
+      <div className="
+        w-full max-w-[1420px] mx-auto
+        px-5 py-10
+        grid
+        grid-cols-1
+        gap-y-10
+        sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 sm:px-7 sm:py-12
+        lg:grid-cols-4 lg:gap-x-14 lg:gap-y-0 lg:px-10 lg:py-12
+      ">
 
-      {/* Col 1 — Brand identity */}
-      <div>
-        <a href="#home" className="footer-brand">
-          <img src="/navbar/LOGO PNG.png" alt="MotorMedic Logo"  className="footer-brand-logo"     />
-          <img src="/navbar/FONT PNG.png" alt="MotorMedic"       className="footer-brand-wordmark" />
-        </a>
-
-        <p className="footer-brand-desc">
-          Auckland's premium independent car workshop. Precision care, honest service.
-        </p>
-
-        <div className="footer-social-row">
-          <a href="#" aria-label="Instagram" className="social-btn">
-            <FaInstagram style={{ width: "0.95rem", height: "0.95rem" }} />
+        {/* Col 1 — Brand identity */}
+        <div className="flex flex-col">
+          <a href="#home" className="footer-brand">
+            <img src="/navbar/LOGO PNG.png" alt="MotorMedic Logo"  className="footer-brand-logo"     />
+            <img src="/navbar/FONT PNG.png" alt="MotorMedic"       className="footer-brand-wordmark" />
           </a>
-          <a href="#" aria-label="Facebook" className="social-btn">
-            <FaFacebook style={{ width: "0.95rem", height: "0.95rem" }} />
+          <p className="footer-brand-desc">
+            Auckland's premium independent car workshop. Precision care, honest service.
+          </p>
+          <div className="footer-social-row">
+            <a href="#" aria-label="Instagram" className="social-btn">
+              <FaInstagram style={{ width: "0.95rem", height: "0.95rem" }} />
+            </a>
+            <a href="#" aria-label="Facebook" className="social-btn">
+              <FaFacebook style={{ width: "0.95rem", height: "0.95rem" }} />
+            </a>
+          </div>
+        </div>
+
+        {/* Col 2 — Visit Us */}
+        <div className="flex flex-col">
+          <ColHeading>Visit Us</ColHeading>
+          <a
+            href="https://maps.app.goo.gl/fepEQtV3DB9q9QXb9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-info-link"
+          >
+            <MapPin style={{ width: "0.95rem", height: "0.95rem", marginTop: "0.15rem", flexShrink: 0, color: "rgba(210,40,40,0.85)" }} />
+            <span>
+              5 Wingate Street,<br />
+              Avondale, Auckland 0600<br />
+              New Zealand
+            </span>
           </a>
         </div>
-      </div>
 
-      {/* Col 2 — Visit Us */}
-      <div>
-        <ColHeading>Visit Us</ColHeading>
-        <a
-          href="https://maps.app.goo.gl/fepEQtV3DB9q9QXb9"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer-info-link"
-        >
-          <MapPin style={{ width: "0.95rem", height: "0.95rem", marginTop: "0.15rem", flexShrink: 0, color: "rgba(210,40,40,0.85)" }} />
-          <span>
-            5 Wingate Street,<br />
-            Avondale, Auckland 0600<br />
-            New Zealand
-          </span>
-        </a>
-      </div>
+        {/* Col 3 — Contact */}
+        <div className="flex flex-col">
+          <ColHeading>Contact</ColHeading>
+          <ul className="footer-info-list gap-contact">
+            <li>
+              <a href="tel:+6427916555" className="footer-info-link" style={{ alignItems: "center" }}>
+                <AccentIcon icon={Phone} />
+                027 916 5555
+              </a>
+            </li>
+            <li>
+              <a href="mailto:hello@motormedic.co.nz" className="footer-info-link" style={{ alignItems: "center" }}>
+                <AccentIcon icon={Mail} />
+                <span style={{ wordBreak: "break-all" }}>hello@motormedic.co.nz</span>
+              </a>
+            </li>
+          </ul>
+        </div>
 
-      {/* Col 3 — Contact */}
-      <div>
-        <ColHeading>Contact</ColHeading>
-        <ul className="footer-info-list gap-contact">
-          <li>
-            <a href="tel:+6427916555" className="footer-info-link" style={{ alignItems: "center" }}>
-              <AccentIcon icon={Phone} />
-              027 916 5555
-            </a>
-          </li>
-          <li>
-            <a href="mailto:hello@motormedic.co.nz" className="footer-info-link" style={{ alignItems: "center" }}>
-              <AccentIcon icon={Mail} />
-              hello@motormedic.co.nz
-            </a>
-          </li>
-        </ul>
-      </div>
+        {/* Col 4 — Hours */}
+        <div className="flex flex-col">
+          <ColHeading>Hours</ColHeading>
+          <ul className="footer-info-list gap-hours">
+            {HOURS.map(({ day, time }) => {
+              const isClosed = time === "Closed";
+              return (
+                <li key={day} className={`footer-hours-item${isClosed ? " closed" : ""}`}>
+                  <AccentIcon icon={Clock} faded={isClosed} />
+                  <span>
+                    <span className="footer-hours-day">{day}:</span>
+                    {time}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
 
-      {/* Col 4 — Hours */}
-      <div>
-        <ColHeading>Hours</ColHeading>
-        <ul className="footer-info-list gap-hours">
-          {HOURS.map(({ day, time }) => {
-            const isClosed = time === "Closed";
-            return (
-              <li key={day} className={`footer-hours-item${isClosed ? " closed" : ""}`}>
-                <AccentIcon icon={Clock} faded={isClosed} />
-                <span>
-                  <span className="footer-hours-day">{day}:</span>
-                  {time}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
       </div>
-
     </div>
 
-    {/* ── Bottom bar ── */}
+    {/* Bottom bar */}
     <div className="footer-bottom">
       <div className="footer-bottom-inner">
         <p>© {new Date().getFullYear()} MotorMedic Auckland. All rights reserved.</p>
