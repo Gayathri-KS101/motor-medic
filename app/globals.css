@@ -29,9 +29,10 @@ body {
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ─────────────────────────────────────────────
+   DESIGN SYSTEM
+   All colors MUST be HSL.
+───────────────────────────────────────────── */
 
 @layer base {
   :root {
@@ -70,31 +71,24 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 4% / 0.85) 0%, hsl(0 84% 35% / 0.55) 100%);
+    --gradient-hero:    linear-gradient(135deg, hsl(0 0% 4% / 0.85) 0%, hsl(0 84% 35% / 0.55) 100%);
     --gradient-primary: linear-gradient(135deg, hsl(0 84% 50%), hsl(0 90% 38%));
-    --gradient-silver: linear-gradient(135deg, hsl(0 0% 88%), hsl(0 0% 55%));
-    --gradient-dark: linear-gradient(180deg, hsl(0 0% 6%), hsl(0 0% 3%));
+    --gradient-silver:  linear-gradient(135deg, hsl(0 0% 88%), hsl(0 0% 55%));
+    --gradient-dark:    linear-gradient(180deg, hsl(0 0% 6%), hsl(0 0% 3%));
 
     --shadow-glow: 0 20px 60px -20px hsl(0 84% 50% / 0.45);
     --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.6);
 
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
+    --sidebar-background:        0 0% 98%;
+    --sidebar-foreground:        240 5.3% 26.1%;
+    --sidebar-primary:           240 5.9% 10%;
+    --sidebar-primary-foreground:0 0% 98%;
+    --sidebar-accent:            240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border:            220 13% 91%;
+    --sidebar-ring:              217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -125,19 +119,19 @@ All colors MUST be HSL.
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+
+    --sidebar-background:        240 5.9% 10%;
+    --sidebar-foreground:        240 4.8% 95.9%;
+    --sidebar-primary:           224.3 76.3% 48%;
+    --sidebar-primary-foreground:0 0% 100%;
+    --sidebar-accent:            240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border:            240 3.7% 15.9%;
+    --sidebar-ring:              217.2 91.2% 59.8%;
   }
 }
 
 @layer base {
-
   body {
     font-family: 'Inter', system-ui, sans-serif;
   }
@@ -161,4 +155,334 @@ All colors MUST be HSL.
     background-clip: text;
     color: transparent;
   }
+}
+
+/* ─────────────────────────────────────────────
+   MARQUEE  (shared utility, used in multiple sections)
+───────────────────────────────────────────── */
+
+/* Legacy class used elsewhere in the project */
+.marquee {
+  animation: marquee 28s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Footer marquee (slightly slower, separate keyframe name to avoid conflict) */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Soft fade mask on both edges */
+.marquee-fade {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — LAYOUT
+───────────────────────────────────────────── */
+
+.footer-root {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    rgba(110,8,8,0.42)  0%,
+    rgba(60,4,4,0.25)  30%,
+    #060606            60%,
+    #000              100%
+  );
+}
+
+/* Grain texture — decorative overlay rendered behind all content */
+.footer-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Stacks children above the grain layer */
+.footer-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ambient crimson radial bloom at the top edge */
+.footer-bloom {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 320px;
+  background: radial-gradient(ellipse at top, rgba(130,10,10,0.28) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 4-column info grid */
+.footer-grid {
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 3.2rem 1.6rem 2.4rem;
+  display: grid;
+  grid-template-columns: minmax(280px, 1.25fr) repeat(3, minmax(160px, 1fr));
+  gap: 3.5rem;
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — DIVIDERS
+───────────────────────────────────────────── */
+
+/* Metallic silver top-divider with soft blur halo */
+.silver-divider {
+  height: 1px;
+  position: relative;
+  margin: 0 4%;
+  background: linear-gradient(
+    to right,
+    transparent            0%,
+    rgba(200,200,210,0.08) 15%,
+    rgba(220,215,225,0.55) 38%,
+    rgba(255,252,255,0.85) 50%,
+    rgba(220,215,225,0.55) 62%,
+    rgba(200,200,210,0.08) 85%,
+    transparent           100%
+  );
+}
+.silver-divider::after {
+  content: '';
+  position: absolute;
+  inset: -3px 10% -3px 10%;
+  background: inherit;
+  filter: blur(6px);
+  opacity: 0.5;
+}
+
+/* Thin crimson separator between marquee and grid */
+.crimson-divider {
+  height: 1px;
+  margin: 0 6%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(120,10,10,0.35) 25%,
+    rgba(160,15,15,0.20) 50%,
+    rgba(120,10,10,0.35) 75%,
+    transparent
+  );
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — BRANDS MARQUEE
+───────────────────────────────────────────── */
+
+.footer-brands-section {
+  padding: 3.5rem 0;
+}
+
+.footer-brands-label {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  /* optical centre offset for wide letter-spacing */
+  padding-left: 0.5em;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(190,185,195,0.55);
+}
+
+.brand-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 140px;
+  padding: 0 1.5rem;
+  opacity: 0.5;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  cursor: default;
+}
+.brand-item:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.brand-item img {
+  height: 2.6rem;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+  filter: grayscale(100%) brightness(1.6) contrast(0.9);
+}
+
+.brand-item span {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(185,182,192,0.7);
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — BRANDING COLUMN
+───────────────────────────────────────────── */
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+
+.footer-brand-logo {
+  width: clamp(4.8rem, 7vw, 5.8rem);
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footer-brand-wordmark {
+  width: clamp(10rem, 14vw, 13rem);
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footer-brand-desc {
+  font-size: 0.8rem;
+  color: rgba(170,165,178,0.7);
+  line-height: 1.7;
+  max-width: 240px;
+}
+
+.footer-social-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — COLUMN HEADINGS
+───────────────────────────────────────────── */
+
+.footer-col-heading {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(210,205,220,0.85);
+  margin-bottom: 1.2rem;
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — INFO LISTS (address / contact / hours)
+───────────────────────────────────────────── */
+
+.footer-info-link {
+  font-size: 0.82rem;
+  color: rgba(155,150,165,0.75);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-info-link:hover {
+  color: rgba(220,220,230,0.9);
+}
+
+.footer-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.footer-info-list.gap-contact { gap: 0.85rem; }
+.footer-info-list.gap-hours   { gap: 0.7rem;  }
+
+.footer-hours-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: rgba(155,150,165,0.75);
+}
+.footer-hours-item.closed {
+  color: rgba(130,125,140,0.55);
+}
+
+.footer-hours-day {
+  color: rgba(185,182,195,0.65);
+  margin-right: 0.4rem;
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — SOCIAL BUTTONS
+───────────────────────────────────────────── */
+
+.social-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200,200,210,0.7);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.social-btn:hover {
+  background: rgba(160,20,20,0.6);
+  border-color: rgba(200,30,30,0.5);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER — BOTTOM BAR
+───────────────────────────────────────────── */
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-bottom-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.4rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  color: rgba(120,115,130,0.6);
+  letter-spacing: 0.04em;
+}
+.footer-bottom-inner p {
+  margin: 0;
 }
