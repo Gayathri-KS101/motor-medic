@@ -1,41 +1,35 @@
+"use client";
+
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import { SERVICES } from "../components/services/data/services";
+import { SectionHeader } from "../components/services/section-header";
+import { ServiceMenu } from "../components/services/service-menu";
+import { ServiceCard } from "../components/services/service-card";
+
 export default function ServicesPage() {
+  const [activeId, setActiveId] = useState(SERVICES[0].id);
+  const [direction, setDirection] = useState(0);
+
   return (
-    <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-      <div className="text-center">
-        <p className="text-sm uppercase tracking-[0.4em] text-red-500 mb-4">
-          MotorMedic Automotive
-        </p>
+    <section className="bg-background py-20 sm:py-28">
+      <Navbar />
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionHeader />
 
-        <h1 className="text-5xl md:text-7xl font-bold mb-6">
-          Services
-        </h1>
+        <ServiceMenu
+          activeId={activeId}
+          setActiveId={setActiveId}
+          setDirection={setDirection}
+        />
 
-        <p className="text-zinc-400 text-lg max-w-xl mx-auto leading-relaxed">
-          Premium workshop services experience is currently under construction.
-          Something cinematic is coming soon.
-        </p>
-
-        <div className="mt-10">
-          <a
-            href="/"
-            className="
-              inline-flex
-              items-center
-              justify-center
-
-              px-6 py-3
-              rounded-xl
-
-              bg-red-600
-              hover:bg-red-500
-
-              transition-all duration-300
-            "
-          >
-            Back to Home
-          </a>
-        </div>
+        <ServiceCard
+          activeId={activeId}
+          direction={direction}
+          setActiveId={setActiveId}
+          setDirection={setDirection}
+        />
       </div>
-    </main>
+    </section>
   );
 }
