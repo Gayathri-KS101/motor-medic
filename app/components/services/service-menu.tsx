@@ -45,7 +45,21 @@ export const ServiceMenu = ({
       if (shouldScroll) {
         const cardSection = document.getElementById("service-card-section");
         if (cardSection) {
-          cardSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          const cardSection = document.getElementById(
+  "service-card-section",
+);
+
+if (cardSection) {
+  const y =
+    cardSection.getBoundingClientRect().top +
+    window.pageYOffset -
+    90;
+
+  window.scrollTo({
+    top: y,
+    behavior: "smooth",
+  });
+}
         }
         setShouldScroll(false);
       }

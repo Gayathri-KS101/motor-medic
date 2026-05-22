@@ -760,3 +760,33 @@ body {
   height: 80px;
   background: linear-gradient(to top, #050608 0%, transparent 100%);
 }
+
+/* ───────────────── MOBILE HEADER TWEAKS ───────────────── */
+
+@media (max-width: 768px) {
+
+  /* bring text content slightly lower */
+  .svc-header-content {
+    padding-top: 150px;
+    align-items: flex-start;
+  }
+
+  /* lower inner block */
+  .svc-header-inner {
+    transform: translateY(26px);
+  }
+
+  /* increase spacing between OUR & SERVICES */
+  .svc-header-h1 {
+    line-height: 1;
+  }
+
+  .svc-header-h1-our {
+    margin-bottom: 12px;
+  }
+
+  /* slightly lower description */
+  .svc-header-desc {
+    margin-top: 36px;
+  }
+}

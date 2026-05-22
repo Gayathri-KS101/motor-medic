@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { ChevronDown } from "lucide-react";
+
 import Navbar from "../components/Navbar";
 import { SERVICES } from "../components/services/data/services";
 import { SectionHeader } from "../components/services/section-header";
@@ -15,49 +17,69 @@ export default function ServicesPage() {
   const [activeId, setActiveId] = useState(SERVICES[0].id);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
   const pauseTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleNext = useCallback(() => {
-    const currentIndex = SERVICES.findIndex((s) => s.id === activeId);
-    const nextIndex = (currentIndex + 1) % SERVICES.length;
+    const currentIndex = SERVICES.findIndex(
+      (s) => s.id === activeId,
+    );
+
+    const nextIndex =
+      (currentIndex + 1) % SERVICES.length;
+
     setDirection(1);
     setActiveId(SERVICES[nextIndex].id);
   }, [activeId]);
 
   useEffect(() => {
     if (isPaused) return;
-    const interval = setInterval(handleNext, AUTOSCROLL_INTERVAL);
+
+    const interval = setInterval(
+      handleNext,
+      AUTOSCROLL_INTERVAL,
+    );
+
     return () => clearInterval(interval);
   }, [handleNext, isPaused]);
 
   const handleUserInteraction = useCallback(() => {
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+    if (pauseTimerRef.current)
+      clearTimeout(pauseTimerRef.current);
+
     setIsPaused(true);
-    pauseTimerRef.current = setTimeout(() => setIsPaused(false), TOUCH_PAUSE_DURATION);
+
+    pauseTimerRef.current = setTimeout(
+      () => setIsPaused(false),
+      TOUCH_PAUSE_DURATION,
+    );
   }, []);
 
   const handleMouseEnter = () => {
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+    if (pauseTimerRef.current)
+      clearTimeout(pauseTimerRef.current);
+
     setIsPaused(true);
   };
-  const handleMouseLeave = () => setIsPaused(false);
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
+
   const handleBookNow = () => {
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+    if (pauseTimerRef.current)
+      clearTimeout(pauseTimerRef.current);
+
     setIsPaused(true);
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
 
-      <main className="flex-grow bg-background overflow-x-hidden">
+      <main className="flex-grow overflow-x-hidden bg-background">
 
-        {/*
-          SectionHeader wrapper:
-          - pt-20/pt-28 pushes below fixed navbar
-          - w-screen + negative margins = true full bleed on ALL screen sizes
-          - overflow-hidden clips any residual scroll bars
-        */}
+        {/* ───────────── FULL BLEED HEADER ───────────── */}
         <div
           style={{
             width: "100vw",
@@ -72,14 +94,55 @@ export default function ServicesPage() {
           <SectionHeader />
         </div>
 
-        {/* Constrained content below */}
-        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 md:px-12">
+        {/* ───────────── SCROLL INDICATOR BELOW HEADER ───────────── */}
+        <div className="relative z-30 flex justify-center py-6 md:py-7">
+
+          <div className="flex flex-col items-center gap-1 pointer-events-none">
+
+            {/* text */}
+            <span
+              className="uppercase tracking-[0.32em] text-white/24"
+              style={{
+                fontSize: "10px",
+                fontFamily:
+                  "'Barlow Condensed', sans-serif",
+                fontWeight: 600,
+              }}
+            >
+              Scroll Down
+            </span>
+
+            {/* arrows */}
+            <div className="flex flex-col items-center -space-y-3">
+
+              <ChevronDown
+                className="h-4 w-4 text-white/26 animate-bounce"
+                style={{
+                  animationDuration: "1.8s",
+                }}
+              />
+
+              <ChevronDown
+                className="h-4 w-4 text-white/14 animate-bounce"
+                style={{
+                  animationDuration: "1.8s",
+                  animationDelay: "0.15s",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ───────────── CONTENT ───────────── */}
+        <div className="mx-auto max-w-[1320px] px-5 sm:px-8 md:px-10">
+
           <ServiceMenu
             activeId={activeId}
             setActiveId={setActiveId}
             setDirection={setDirection}
             onInteraction={handleUserInteraction}
           />
+
           <div
             id="service-card-section"
             onMouseEnter={handleMouseEnter}
