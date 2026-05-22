@@ -90,7 +90,7 @@ export const Navbar = () => {
         {/* ── Desktop CTA ── */}
         <div className="hidden md:block">
           <Button variant="hero" size="sm" asChild>
-            <a href="#contact">Book Now</a>
+            <a href="/services#service-menu">Book Now</a>
           </Button>
         </div>
 
@@ -120,7 +120,7 @@ export const Navbar = () => {
               </li>
             ))}
             <Button variant="hero" asChild className="mt-2">
-              <a href="#contact">Book Now</a>
+              <a href="/services#service-menu">Book Now</a>
             </Button>
           </ul>
         </div>

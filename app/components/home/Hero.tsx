@@ -95,7 +95,7 @@ export const Hero = () => {
                 className="sm:hidden"
                 asChild
               >
-                <a href="#contact">
+                <a href="/services">
                   Book a Service <ArrowRight className="ml-0.5 !size-3.5" />
                 </a>
               </Button>
@@ -105,7 +105,7 @@ export const Hero = () => {
                 className="hidden sm:inline-flex"
                 asChild
               >
-                <a href="#contact">
+                <a href="/services">
                   Book a Service <ArrowRight className="ml-1" />
                 </a>
               </Button>
@@ -118,7 +118,7 @@ export const Hero = () => {
                 className="sm:hidden"
                 asChild
               >
-                <a href="tel:+6499000000">
+                <a href="#footer">
                   <PhoneCall className="!size-3.5" /> Call Workshop
                 </a>
               </Button>
@@ -128,7 +128,7 @@ export const Hero = () => {
                 className="hidden sm:inline-flex"
                 asChild
               >
-                <a href="tel:+6499000000">
+                <a href="#footer">
                   <PhoneCall className="mr-1" /> Call Workshop
                 </a>
               </Button>
