@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;0,800;0,900;1,500;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -107,6 +108,13 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .animate-shimmer {
+    animation: shimmer 2.5s infinite;
   }
 }
 
@@ -435,7 +443,7 @@ body {
 .footer-bottom-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.4rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -454,6 +462,301 @@ body {
   }
 }
 @media (min-width: 640px) {
-  .footer-bottom-inner { padding: 1.4rem 2rem; }
+  .footer-bottom-inner { padding: 0.8rem 2rem; }
 }
 .footer-bottom-inner p { margin: 0; }
+
+/* ─────────────────────────────────────────────
+   SERVICE PAGE — SECTION HEADER
+───────────────────────────────────────────── */
+
+.svc-header {
+  position: relative;
+  background: #050608;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  min-height: clamp(480px, 76vh, 780px);
+  overflow: hidden;
+}
+
+/* Background layers */
+.svc-header-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.svc-header-img-wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 72%;
+  overflow: hidden;
+}
+
+.svc-header-img {
+  position: absolute;
+  top: -1%;
+  right: -1%;
+  width: 100%;
+  height: 108%;
+  object-fit: contain;
+  object-position: center right;
+  opacity: 0.48;
+  filter: contrast(1.04) brightness(0.66) saturate(0.78);
+}
+
+.svc-header-blend-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    #050608 0%,
+    rgba(5,6,8,0.96) 18%,
+    rgba(5,6,8,0.84) 34%,
+    rgba(5,6,8,0.38) 52%,
+    transparent 72%
+  );
+}
+
+.svc-header-blend-tb {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #050608 0%,
+    transparent 16%,
+    transparent 82%,
+    #050608 100%
+  );
+}
+
+.svc-header-blend-right {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(5,6,8,0.92) 0%, transparent 18%);
+}
+
+.svc-header-blue-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    circle at 76% 42%,
+    rgba(22,56,180,0.30) 0%,
+    rgba(8,18,75,0.22) 26%,
+    rgba(3,8,28,0.12) 52%,
+    transparent 72%
+  );
+}
+
+.svc-header-blue-streak {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    transparent 42%,
+    rgba(40,90,255,0.10) 58%,
+    transparent 76%
+  );
+}
+
+.svc-header-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(0,0,0,0.35) 72%,
+    rgba(0,0,0,0.78) 100%
+  );
+}
+
+.svc-header-red-ambient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  width: 34%;
+  height: 42%;
+  background: radial-gradient(
+    circle at 0% 100%,
+    rgba(180,20,20,0.16) 0%,
+    transparent 62%
+  );
+  filter: blur(55px);
+}
+
+/* Content area */
+.svc-header-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  min-height: clamp(480px, 76vh, 780px);
+  padding-top:    clamp(110px, 14vh, 150px);
+  padding-bottom: clamp(60px, 8vh, 100px);
+  padding-left:   clamp(28px, 6vw, 92px);
+  padding-right:  clamp(28px, 6vw, 92px);
+}
+
+.svc-header-inner {
+  width: 100%;
+}
+
+/* Eyebrow */
+.svc-header-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.svc-header-eyebrow-line {
+  width: 36px;
+  height: 2px;
+  background: #dc2626;
+  box-shadow: 0 0 12px rgba(220,38,38,0.65);
+  flex-shrink: 0;
+}
+
+.svc-header-eyebrow-text {
+  margin: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(11px, 1.2vw, 14px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.55em;
+  color: rgba(255,255,255,0.42);
+  white-space: nowrap;
+}
+
+/* Headline */
+.svc-header-h1 {
+  margin: 0;
+  padding: 0;
+  line-height: 0.9;
+  font-family: 'Barlow Condensed', Impact, sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.svc-header-h1-our {
+  display: block;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  color: #f5f7fb;
+  opacity: 0.95;
+  text-rendering: geometricPrecision;
+}
+
+.svc-header-h1-services {
+  display: block;
+  font-size: clamp(3.2rem, 6.8vw, 6.8rem);
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #dfe3ea 22%,
+    #b8bec9 50%,
+    #d7dce5 74%,
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-rendering: geometricPrecision;
+  letter-spacing: -0.03em;
+}
+
+/* Description */
+.svc-header-desc {
+  margin-top: 32px;
+  max-width: min(380px, 55vw);
+  border-left: 2px solid rgba(220,38,38,0.45);
+  padding-left: 18px;
+  color: rgba(255,255,255,0.45);
+  font-size: clamp(0.82rem, 1.1vw, 1rem);
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+  font-style: italic;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 500;
+}
+
+/* Chips row */
+.svc-header-chips {
+  margin-top: 36px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.svc-header-chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.svc-header-chip-1 {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+}
+
+.svc-header-chip-2 {
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.025);
+}
+
+.svc-header-chip-icon-red {
+  width: 13px;
+  height: 13px;
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.svc-header-chip-icon-blue {
+  width: 13px;
+  height: 13px;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.svc-header-chip-label-1 {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.66);
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+.svc-header-chip-label-2 {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* Bottom fade-out blend */
+.svc-header-bottom-blend {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  pointer-events: none;
+  height: 80px;
+  background: linear-gradient(to top, #050608 0%, transparent 100%);
+}

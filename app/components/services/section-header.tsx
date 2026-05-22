@@ -1,22 +1,71 @@
+import { Shield, Zap } from "lucide-react";
+
 export const SectionHeader = () => {
   return (
-    <header className="max-w-2xl">
-      <div className="flex items-center gap-3">
-        <span className="h-px w-8 bg-primary" />
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
-          What we do
-        </p>
+    <header className="svc-header">
+
+      {/* ── BACKGROUND ── */}
+      <div className="svc-header-bg">
+
+        {/* Engine image + blends */}
+        <div className="svc-header-img-wrap">
+          <img
+            src="/service/rotary-car-engine-details-combustion.png"
+            alt=""
+            aria-hidden="true"
+            className="svc-header-img"
+          />
+          <div className="svc-header-blend-left" />
+          <div className="svc-header-blend-tb" />
+          <div className="svc-header-blend-right" />
+        </div>
+
+        {/* Atmospheric effects */}
+        <div className="svc-header-blue-glow" />
+        <div className="svc-header-blue-streak" />
+        <div className="svc-header-vignette" />
+        <div className="svc-header-red-ambient" />
       </div>
 
-      <h2 className="mt-5 text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-        Workshop services, engineered around your vehicle.
-      </h2>
+      {/* ── CONTENT ── */}
+      <div className="svc-header-content">
+        <div className="svc-header-inner">
 
-      <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-        From routine servicing to performance tuning, every job is carried out
-        by certified technicians using OE-grade parts and proper diagnostic
-        equipment.
-      </p>
+          {/* Eyebrow */}
+          <div className="svc-header-eyebrow">
+            <div className="svc-header-eyebrow-line" />
+            <p className="svc-header-eyebrow-text">Service Menu</p>
+          </div>
+
+          {/* Headline */}
+          <h1 className="svc-header-h1">
+            <span className="svc-header-h1-our">OUR</span>
+            <span className="svc-header-h1-services">SERVICES</span>
+          </h1>
+
+          {/* Description */}
+          <p className="svc-header-desc">
+            Advanced automotive engineering and clinical diagnostics
+            for the modern performance vehicle.
+          </p>
+
+          {/* Chips */}
+          <div className="svc-header-chips">
+            <div className="svc-header-chip svc-header-chip-1">
+              <Shield className="svc-header-chip-icon-red" />
+              <span className="svc-header-chip-label-1">Master Techs</span>
+            </div>
+            <div className="svc-header-chip svc-header-chip-2">
+              <Zap className="svc-header-chip-icon-blue" />
+              <span className="svc-header-chip-label-2">Engineered to Win</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Bottom fade */}
+      <div className="svc-header-bottom-blend" />
     </header>
   );
 };

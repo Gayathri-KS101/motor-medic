@@ -1,19 +1,9 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { FaInstagram, FaFacebook } from "react-icons/fa";
 import type { ReactNode, ComponentType, SVGProps } from "react";
+import Brand from "./Brand";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
-
-const BRANDS = [
-  { name: "TOYOTA",   logo: "/brand/toyota.png"   },
-  { name: "BMW",      logo: "/brand/bmw.svg"       },
-  { name: "AUDI",     logo: "/brand/audi.png"      },
-  { name: "FORD",     logo: "/brand/ford.png"      },
-  { name: "MAZDA",    logo: "/brand/mazda.png"     },
-  { name: "MERCEDES", logo: "/brand/marcedes.png"  },
-  { name: "NISSAN",   logo: "/brand/nissan.png"    },
-  { name: "HYUNDAI",  logo: "/brand/hyundai.png"   },
-];
 
 const HOURS = [
   { day: "Mon – Fri", time: "8:00 – 17:30" },
@@ -46,36 +36,17 @@ const AccentIcon = ({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export const Footer = () => (
+interface FooterProps {
+  showBrands?: boolean;
+}
+
+export const Footer = ({ showBrands = true }: FooterProps) => (
   <footer id="contact" className="footer-root footer-grain">
 
     {/* Ambient crimson bloom */}
     <div aria-hidden="true" className="footer-bloom" />
 
-    {/* Silver top divider */}
-    <div className="footer-content" style={{ paddingTop: "2px" }}>
-      <div className="silver-divider" />
-    </div>
-
-    {/* ══ BRANDS MARQUEE ══ */}
-    <div className="footer-content footer-brands-section">
-      <p className="footer-brands-label">Trusted by drivers of</p>
-      <div className="marquee-fade">
-        <div className="marquee-track">
-          {[...BRANDS, ...BRANDS].map((brand, i) => (
-            <div key={`${brand.name}-${i}`} className="brand-item">
-              <img src={brand.logo} alt={brand.name} />
-              <span>{brand.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    {/* Crimson mid-separator */}
-    <div className="footer-content">
-      <div className="crimson-divider" />
-    </div>
+    {showBrands && <Brand />}
 
     {/* ══ MAIN FOOTER GRID ══
         Tailwind responsive classes drive the column layout.
