@@ -10,7 +10,6 @@ const BRANDS = [
   { name: "AUDI",     logo: "/brand/audi.png"      },
   { name: "FORD",     logo: "/brand/ford.png"      },
   { name: "MAZDA",    logo: "/brand/mazda.png"     },
-  { name: "TESLA",    logo: "/brand/tesla.png"     },
   { name: "MERCEDES", logo: "/brand/marcedes.png"  },
   { name: "NISSAN",   logo: "/brand/nissan.png"    },
   { name: "HYUNDAI",  logo: "/brand/hyundai.png"   },

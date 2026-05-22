@@ -58,7 +58,7 @@ export const Navbar = () => {
           <img
             src="/navbar/FONT PNG.png"
             alt="MotorMedic"
-            className="block w-36 sm:w-44 md:w-56 lg:w-64 xl:w-72 h-auto object-contain"
+            className="block w-40 sm:w-44 md:w-56 lg:w-64 xl:w-72 h-auto object-contain"
           />
         </a>
 

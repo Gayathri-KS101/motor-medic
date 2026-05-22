@@ -66,17 +66,20 @@ export const Hero = () => {
             <span className="block text-gradient-primary animate-title-line opacity-0">REPAIR</span>
             <span className="block text-gradient-silver animate-title-line opacity-0">REVIVE.</span>
           </h1>
-
-          <p className="
-            animate-desc opacity-0
-            text-sm sm:text-base md:text-lg
-            text-muted-foreground max-w-xl
-            mb-6 sm:mb-8 leading-relaxed
-          ">
-            Auckland's premium auto workshop. From routine servicing to performance tuning —
-            we treat every vehicle like our own. Certified technicians, honest pricing, modern diagnostics.
-          </p>
-
+<p className="
+  animate-desc opacity-0
+  text-sm sm:text-base md:text-lg
+  text-muted-foreground max-w-xl
+  mb-6 sm:mb-8
+  leading-[1.8]
+  tracking-[0.03em]
+  border-l-2 border-primary pl-4
+  [font-family:'Georgia','Times_New_Roman',serif]
+">
+  Auckland's premium auto workshop. From routine servicing to performance tuning —
+  we treat every vehicle like our own. Certified technicians, honest pricing, modern diagnostics.
+</p>
+ 
           {/* ── CTAs ──
               Always a horizontal row. On mobile use size="md" (compact).
               From sm+ switch to size="xl" (original).
