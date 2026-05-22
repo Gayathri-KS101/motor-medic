@@ -81,6 +81,7 @@ export default function ServicesPage() {
             onInteraction={handleUserInteraction}
           />
           <div
+            id="service-card-section"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleUserInteraction}

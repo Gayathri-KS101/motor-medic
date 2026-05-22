@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { SERVICES } from "./data/services";
 
 interface ServiceMenuProps {
@@ -33,17 +33,30 @@ export const ServiceMenu = ({
     onInteraction?.();
   };
 
+  // Mobile: Scroll to service card section on click
+  // Only scroll to section on mobile when user manually clicks
+  const [shouldScroll, setShouldScroll] = useState(false);
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const el = tabsRef.current?.querySelector<HTMLElement>(
       `[data-tab-id="${activeId}"]`,
     );
-
-    el?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "center",
-    });
-  }, [activeId]);
+    if (window.innerWidth < 768) {
+      if (shouldScroll) {
+        const cardSection = document.getElementById("service-card-section");
+        if (cardSection) {
+          cardSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        setShouldScroll(false);
+      }
+    } else {
+      el?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeId, shouldScroll]);
 
   return (
     <section className="relative mt-10 mb-14">
@@ -110,9 +123,10 @@ export const ServiceMenu = ({
             data-tab-id={s.id}
             role="tab"
             aria-selected={isActive}
-            onClick={() =>
-              goTo(SERVICES.findIndex((x) => x.id === s.id))
-            }
+            onClick={() => {
+              goTo(SERVICES.findIndex((x) => x.id === s.id));
+              if (window.innerWidth < 768) setShouldScroll(true);
+            }}
             onTouchStart={onInteraction}
             className={`
               group relative overflow-hidden rounded-[18px] border transition-all duration-300
@@ -219,7 +233,7 @@ export const ServiceMenu = ({
       <div className="hidden md:block">
         <div
           ref={tabsRef}
-          className="scrollbar-none -mx-5 flex flex-nowrap gap-2 overflow-x-auto px-5 sm:mx-0 sm:px-0 py-4"
+          className="grid grid-cols-3 xl:grid-cols-6 gap-4 py-4"
           role="tablist"
           aria-label="Services"
           onMouseEnter={onInteraction}
@@ -228,7 +242,6 @@ export const ServiceMenu = ({
           {SERVICES.map((s) => {
             const Icon = s.icon;
             const isActive = s.id === activeId;
-
             return (
               <button
                 key={s.id}
@@ -239,28 +252,27 @@ export const ServiceMenu = ({
                   goTo(SERVICES.findIndex((x) => x.id === s.id))
                 }
                 className={`
-                  group relative flex shrink-0 items-center gap-2.5 rounded-full border px-6 py-2.5 text-xs font-bold uppercase tracking-widest transition-all duration-300
+                  group relative flex flex-col items-center gap-2 rounded-2xl border px-4 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300
                   ${
                     isActive
-                      ? "border-primary/40 bg-secondary/80 text-white"
-                      : "border-transparent bg-secondary/30 text-muted-foreground hover:bg-secondary/50 hover:text-silver"
+                      ? "border-primary/40 bg-white/[0.07] text-white"
+                      : "border-white/[0.05] bg-white/[0.025] text-muted-foreground hover:bg-secondary/50 hover:text-silver"
                   }
                 `}
+                style={{ minHeight: "110px" }}
               >
                 <Icon
-                  className={`h-3.5 w-3.5 transition-colors duration-300 ${
+                  className={`h-6 w-6 mb-2 transition-colors duration-300 ${
                     isActive
                       ? "text-primary"
                       : "text-muted-foreground group-hover:text-silver"
                   }`}
                 />
-
                 <span>{s.title}</span>
-
                 {isActive && (
                   <motion.div
                     layoutId="desktop-active-pill"
-                    className="absolute inset-0 rounded-full border border-primary/50 shadow-[0_0_15px_rgba(210,40,40,0.18)] pointer-events-none"
+                    className="absolute inset-0 rounded-2xl border border-primary/50 shadow-[0_0_15px_rgba(210,40,40,0.18)] pointer-events-none"
                     initial={false}
                     transition={{
                       type: "spring",
