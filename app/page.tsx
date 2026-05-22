@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/home/Hero";
-import Services from "./components/services/Services";
+import Services from "./components/home/Services";
 import Footer from "./components/footer/Footer";
 
 const Index = () => {
