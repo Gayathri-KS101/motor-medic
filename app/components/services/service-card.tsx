@@ -9,7 +9,13 @@ interface ServiceCardProps {
   direction: number;
   setActiveId: (id: string) => void;
   setDirection: (direction: number) => void;
-  onBookNow?: () => void;
+
+  onBookNow?: (service: {
+    id: string;
+    title: string;
+    tagline?: string;
+  }) => void;
+
   onInteraction?: () => void;
 }
 
@@ -127,7 +133,13 @@ export const ServiceCard = ({
 
               <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <button
-                  onClick={onBookNow}
+                  onClick={() =>
+  onBookNow?.({
+    id: active.id,
+    title: active.title,
+    tagline: active.tagline,
+  })
+}
                   className="relative flex flex-1 items-center justify-center gap-3 overflow-hidden rounded-full bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all duration-300 hover:bg-red-700 hover:scale-105 active:scale-95"
                 >
                   <span>Book {active.title}</span>

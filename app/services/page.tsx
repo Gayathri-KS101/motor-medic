@@ -9,6 +9,8 @@ import { SectionHeader } from "../components/services/section-header";
 import { ServiceMenu } from "../components/services/service-menu";
 import { ServiceCard } from "../components/services/service-card";
 import Footer from "../components/footer/Footer";
+import { useBooking } from "@/app/hooks/useBooking";
+import { BookingModal } from "@/app/components/services/booking-modal";
 
 const AUTOSCROLL_INTERVAL = 5000;
 const TOUCH_PAUSE_DURATION = 120000;
@@ -17,9 +19,10 @@ export default function ServicesPage() {
   const [activeId, setActiveId] = useState(SERVICES[0].id);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  
 
   const pauseTimerRef = useRef<NodeJS.Timeout | null>(null);
-
+  const booking = useBooking();
   const handleNext = useCallback(() => {
     const currentIndex = SERVICES.findIndex(
       (s) => s.id === activeId,
@@ -66,12 +69,18 @@ export default function ServicesPage() {
     setIsPaused(false);
   };
 
-  const handleBookNow = () => {
-    if (pauseTimerRef.current)
-      clearTimeout(pauseTimerRef.current);
+  const handleBookNow = (service: {
+  id: string;
+  title: string;
+  tagline?: string;
+}) => {
+  if (pauseTimerRef.current)
+    clearTimeout(pauseTimerRef.current);
 
-    setIsPaused(true);
-  };
+  setIsPaused(true);
+
+  booking.openBooking(service);
+};
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -162,6 +171,11 @@ export default function ServicesPage() {
       </main>
 
       <Footer showBrands={false} />
+      <BookingModal
+  isOpen={booking.isOpen}
+  onClose={booking.closeBooking}
+  service={booking.selectedService}
+/>
     </div>
   );
 }
