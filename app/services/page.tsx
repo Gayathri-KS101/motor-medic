@@ -16,6 +16,19 @@ const AUTOSCROLL_INTERVAL = 5000;
 const TOUCH_PAUSE_DURATION = 120000;
 
 export default function ServicesPage() {
+  // Scroll to service menu if hash is present
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.location.hash === '#service-menu') {
+      setTimeout(() => {
+        const menu = document.getElementById('service-menu');
+        if (menu) {
+          const y = menu.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 100); // wait for DOM render
+    }
+  }, []);
   const [activeId, setActiveId] = useState(SERVICES[0].id);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -145,12 +158,14 @@ export default function ServicesPage() {
         {/* ───────────── CONTENT ───────────── */}
         <div className="mx-auto max-w-[1320px] px-5 sm:px-8 md:px-10">
 
-          <ServiceMenu
-            activeId={activeId}
-            setActiveId={setActiveId}
-            setDirection={setDirection}
-            onInteraction={handleUserInteraction}
-          />
+          <div id="service-menu">
+            <ServiceMenu
+              activeId={activeId}
+              setActiveId={setActiveId}
+              setDirection={setDirection}
+              onInteraction={handleUserInteraction}
+            />
+          </div>
 
           <div
             id="service-card-section"
