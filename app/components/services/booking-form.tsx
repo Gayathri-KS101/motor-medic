@@ -14,6 +14,10 @@ export const BookingForm = ({
     onSuccess,
 }: BookingFormProps) => {
     const [loading, setLoading] = useState(false);
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [verified, setVerified] = useState(false);
+    const [otpLoading, setOtpLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -35,7 +39,72 @@ export const BookingForm = ({
             [e.target.name]: e.target.value,
         });
     };
+    const sendOtp = async () => {
+        if (!formData.email) {
+            alert("Enter email first");
+            return;
+        }
 
+        try {
+            setOtpLoading(true);
+
+            const response = await fetch("/api/send-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error);
+            }
+
+            setOtpSent(true);
+
+            alert("OTP sent successfully.");
+        } catch (error) {
+            console.error(error);
+            alert("Failed to send OTP.");
+        } finally {
+            setOtpLoading(false);
+        }
+    };
+    const verifyOtp = async () => {
+        try {
+            setOtpLoading(true);
+
+            const response = await fetch("/api/verify-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    otp,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error);
+            }
+
+            setVerified(true);
+
+            alert("Email verified successfully.");
+        } catch (error) {
+            console.error(error);
+            alert("Invalid OTP.");
+        } finally {
+            setOtpLoading(false);
+        }
+    };
     const sendBooking = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -129,6 +198,55 @@ export const BookingForm = ({
                             onChange={handleChange}
                             className="h-14 rounded-2xl border border-white/10 bg-white/[0.03] px-5 text-sm text-white outline-none transition focus:border-red-500"
                         />
+                        <div className="sm:col-span-2 space-y-3">
+
+                            {!verified && (
+                                <button
+                                    type="button"
+                                    onClick={sendOtp}
+                                    disabled={otpLoading}
+                                    className="h-11 rounded-xl border border-white/10 bg-white/[0.03] px-5 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:border-red-500"
+                                >
+                                    {otpLoading
+                                        ? "Sending..."
+                                        : otpSent
+                                            ? "Resend OTP"
+                                            : "Verify Email"}
+                                </button>
+                            )}
+
+                            {otpSent && !verified && (
+                                <div className="flex gap-3">
+
+                                    <input
+                                        type="text"
+                                        placeholder="Enter OTP"
+                                        value={otp}
+                                        onChange={(e) =>
+                                            setOtp(e.target.value)
+                                        }
+                                        className="h-12 flex-1 rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white outline-none focus:border-red-500"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={verifyOtp}
+                                        className="rounded-xl bg-red-600 px-5 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-red-500"
+                                    >
+                                        Verify
+                                    </button>
+
+                                </div>
+                            )}
+
+                            {verified && (
+                                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
+                                    Email verified successfully.
+                                </div>
+                            )}
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -213,11 +331,14 @@ export const BookingForm = ({
             {/* BUTTON */}
             <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !verified}
                 className="flex h-14 w-full items-center justify-center rounded-2xl bg-red-600 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-red-500 disabled:opacity-50"
             >
-                {loading ? "Sending..." : `Book ${service.title}`}
-            </button>
+                {loading
+                    ? "Sending..."
+                    : !verified
+                        ? "Verify Email First"
+                        : `Book ${service.title}`}            </button>
 
         </form>
     );
