@@ -106,15 +106,15 @@ export const Footer = ({ showBrands = true }: FooterProps) => (
           <ColHeading>Contact</ColHeading>
           <ul className="footer-info-list gap-contact">
             <li>
-              <a href="tel:+6427916555" className="footer-info-link" style={{ alignItems: "center" }}>
+              <a href="tel:+0279165555" className="footer-info-link" style={{ alignItems: "center" }}>
                 <AccentIcon icon={Phone} />
                 027 916 5555
               </a>
             </li>
             <li>
-              <a href="mailto:hello@motormedic.co.nz" className="footer-info-link" style={{ alignItems: "center" }}>
+              <a href="mailto:motormedicnz@gmail.com" className="footer-info-link" style={{ alignItems: "center" }}>
                 <AccentIcon icon={Mail} />
-                <span style={{ wordBreak: "break-all" }}>hello@motormedic.co.nz</span>
+                <span style={{ wordBreak: "break-all" }}>motormedicnz@gmail.com</span>
               </a>
             </li>
           </ul>
