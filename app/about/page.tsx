@@ -3,7 +3,6 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer/Footer";
 import AboutHero from "../components/about/about-hero";
-import AboutStats from "../components/about/about-stats";
 import AboutStory from "../components/about/about-story";
 
 export default function AboutPage() {

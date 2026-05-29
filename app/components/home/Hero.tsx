@@ -85,56 +85,35 @@ export const Hero = () => {
               From sm+ switch to size="xl" (original).
               gap-2.5 on mobile so both fit within ~320–360px viewports.
           */}
-          <div className="flex flex-row items-center gap-2.5 sm:gap-4 mb-8 sm:mb-12">
+          <div className="flex flex-row items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
 
-            <div className="animate-cta opacity-0">
-              {/* Mobile: md size. sm+: xl size */}
-              <Button
-                variant="hero"
-                size="md"
-                className="sm:hidden"
-                asChild
-              >
-                <a href="/services#service-menu">
-                  Book a Service <ArrowRight className="ml-0.5 !size-3.5" />
-                </a>
-              </Button>
-              <Button
-                variant="hero"
-                size="xl"
-                className="hidden sm:inline-flex"
-                asChild
-              >
-                <a href="/services#service-menu">
-                  Book a Service <ArrowRight className="ml-1" />
-                </a>
-              </Button>
-            </div>
+  <div className="animate-cta opacity-0">
+    <Button
+      variant="hero"
+      size="xl"
+      asChild
+    >
+      <a href="/services#service-menu">
+        Book a Service
+        <ArrowRight className="ml-1" />
+      </a>
+    </Button>
+  </div>
 
-            <div className="animate-cta opacity-0">
-              <Button
-                variant="outlineGlow"
-                size="md"
-                className="sm:hidden"
-                asChild
-              >
-                <a href="#footer">
-                  <PhoneCall className="!size-3.5" /> Call Workshop
-                </a>
-              </Button>
-              <Button
-                variant="outlineGlow"
-                size="xl"
-                className="hidden sm:inline-flex"
-                asChild
-              >
-                <a href="#footer">
-                  <PhoneCall className="mr-1" /> Call Workshop
-                </a>
-              </Button>
-            </div>
+  <div className="animate-cta opacity-0">
+    <Button
+      variant="outlineGlow"
+      size="xl"
+      asChild
+    >
+      <a href="tel:0279165555">
+        <PhoneCall className="mr-1" />
+        Call Workshop
+      </a>
+    </Button>
+  </div>
 
-          </div>
+</div>
 
           {/* Feature cards */}
           <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 max-w-xl lg:max-w-3xl">

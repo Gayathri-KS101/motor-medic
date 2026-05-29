@@ -334,21 +334,23 @@ export default function AboutStory() {
           </ul>
 
           {/* Buttons — unchanged structure, only hover border color */}
-          <div className="as-cta-el mt-12 flex flex-wrap justify-center gap-4">
-            <a
-              href="#book"
-              className="inline-flex items-center gap-3 rounded-sm bg-red-600 px-8 py-4 text-sm font-semibold tracking-widest text-white transition-all duration-300 hover:-translate-y-1 hover:bg-red-500 hover:shadow-[0_8px_30px_rgba(220,38,38,0.35)]"
-            >
-              BOOK A SERVICE
-              <span className="text-white/60">→</span>
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-3 rounded-sm border border-white/15 px-8 py-4 text-sm font-semibold tracking-widest text-foreground transition-all duration-300 hover:border-blue-400/40 hover:bg-white/5"
-            >
-              CALL THE WORKSHOP
-            </a>
-          </div>
+          {/* Buttons */}
+<div className="as-cta-el mt-12 flex flex-wrap justify-center gap-4">
+  <a
+    href="/services#service-menu"
+    className="inline-flex items-center gap-3 rounded-sm bg-red-600 px-8 py-4 text-sm font-semibold tracking-widest text-white transition-all duration-300 hover:-translate-y-1 hover:bg-red-500 hover:shadow-[0_8px_30px_rgba(220,38,38,0.35)]"
+  >
+    BOOK A SERVICE
+    <span className="text-white/60">→</span>
+  </a>
+
+  <a
+    href="tel:0279165555"
+    className="inline-flex items-center gap-3 rounded-sm border border-white/15 px-8 py-4 text-sm font-semibold tracking-widest text-foreground transition-all duration-300 hover:border-blue-400/40 hover:bg-white/5"
+  >
+    CALL THE WORKSHOP
+  </a>
+</div>
         </div>
       </section>
 
