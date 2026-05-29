@@ -1,23 +1,55 @@
 import {
   Wrench,
-  Gauge,
-  Cog,
-  Battery,
+  Cpu,
   Disc3,
-  ShieldCheck,
-  Sparkles,
   Car,
+  Battery,
+  Cog,
+  PaintBucket,
+  LifeBuoy,
 } from "lucide-react";
 
 const services = [
-  { icon: Wrench, title: "Full Servicing", desc: "Comprehensive logbook servicing for all makes and models." },
-  { icon: Gauge, title: "Diagnostics", desc: "Advanced computer diagnostics to identify issues fast." },
-  { icon: ShieldCheck, title: "WOF Inspections", desc: "Quick, reliable Warrant of Fitness checks while you wait." },
-  { icon: Disc3, title: "Brakes & Suspension", desc: "Expert brake repairs and suspension tuning for safety." },
-  { icon: Cog, title: "Performance Tuning", desc: "ECU remaps and performance upgrades for enthusiasts." },
-  { icon: Battery, title: "EV & Hybrid Care", desc: "Specialist servicing for electric and hybrid vehicles." },
-  { icon: Car, title: "Tyres & Alignment", desc: "Premium tyres, fitting and precision wheel alignment." },
-  { icon: Sparkles, title: "Detailing", desc: "Showroom finish detailing, ceramic coating and polishing." },
+  {
+    icon: Wrench,
+    title: "Mechanical Repairs",
+    desc: "Complete mechanical repairs carried out by experienced technicians.",
+  },
+  {
+    icon: Car,
+    title: "Engine Repair",
+    desc: "Engine repair and replacement services for reliable performance.",
+  },
+  {
+    icon: Cog,
+    title: "Transmission Repair",
+    desc: "Transmission diagnostics, repair and replacement solutions.",
+  },
+  {
+    icon: Disc3,
+    title: "Brake Service",
+    desc: "Professional brake inspections, repairs and servicing.",
+  },
+  {
+    icon: Car,
+    title: "Suspension Work",
+    desc: "Suspension repairs and maintenance for a smoother drive.",
+  },
+  {
+    icon: Battery,
+    title: "Hybrid System Repairs",
+    desc: "Specialised repair services for hybrid vehicle systems.",
+  },
+  {
+    icon: Cpu,
+    title: "Computer Diagnostics",
+    desc: "Advanced diagnostic tools to quickly identify vehicle issues.",
+  },
+  {
+    icon: PaintBucket,
+    title: "Panel Beating & Painting",
+    desc: "Quality bodywork restoration and professional paint finishes.",
+  },
 ];
 
 export const Services = () => {

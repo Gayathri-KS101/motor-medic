@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { SERVICES } from "./data/services";
 
 interface ServiceMenuProps {
@@ -17,288 +17,238 @@ export const ServiceMenu = ({
   setDirection,
   onInteraction,
 }: ServiceMenuProps) => {
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const activeIndex = useMemo(
-    () => SERVICES.findIndex((s) => s.id === activeId),
-    [activeId],
-  );
+  const activeIndex = SERVICES.findIndex((s) => s.id === activeId);
 
   const goTo = (index: number) => {
     const next = (index + SERVICES.length) % SERVICES.length;
-
     setDirection(next > activeIndex ? 1 : -1);
     setActiveId(SERVICES[next].id);
-
     onInteraction?.();
   };
 
-  // Mobile: Scroll to service card section on click
-  // Only scroll to section on mobile when user manually clicks
-  const [shouldScroll, setShouldScroll] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const el = tabsRef.current?.querySelector<HTMLElement>(
-      `[data-tab-id="${activeId}"]`,
-    );
-    if (window.innerWidth < 768) {
-      if (shouldScroll) {
-        const cardSection = document.getElementById("service-card-section");
-        if (cardSection) {
-          const cardSection = document.getElementById(
-  "service-card-section",
-);
-
-if (cardSection) {
-  const y =
-    cardSection.getBoundingClientRect().top +
-    window.pageYOffset -
-    90;
-
-  window.scrollTo({
-    top: y,
-    behavior: "smooth",
-  });
-}
-        }
-        setShouldScroll(false);
-      }
-    } else {
-      el?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [activeId, shouldScroll]);
-
   return (
-    <section className="relative mt-10 mb-14">
-
-      {/* ───────────── MOBILE LAYOUT ───────────── */}
-  
-
-<div className="md:hidden relative overflow-hidden rounded-[24px] border border-white/[0.05] bg-[#06070b]">
-
-  {/* BG */}
-  <div className="absolute inset-0 pointer-events-none">
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "radial-gradient(circle at 72% 35%, rgba(30,70,255,0.14) 0%, rgba(10,20,60,0.08) 32%, transparent 62%)",
-      }}
-    />
-
-    <div
-      className="absolute bottom-0 left-0 w-[50%] h-[40%]"
-      style={{
-        background:
-          "radial-gradient(circle at 0% 100%, rgba(180,20,20,0.10) 0%, transparent 70%)",
-        filter: "blur(34px)",
-      }}
-    />
-  </div>
-
-  {/* CONTENT */}
-  <div className="relative z-10 px-3.5 py-4">
-
-    {/* HEADING */}
-    <div className="mb-4">
-      <p className="text-[9px] uppercase tracking-[0.32em] text-white/32 font-semibold">
-        Service Selection
-      </p>
-
-      <h3
-        className="mt-1.5 text-[0.98rem] leading-snug text-white/90"
-        style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
-          fontWeight: 600,
-        }}
-      >
-        Choose the service your vehicle needs.
-      </h3>
-    </div>
-
-    {/* COMPACT GRID */}
-    <div
-      ref={tabsRef}
-      className="grid grid-cols-3 gap-2"
-      role="tablist"
-      aria-label="Services"
+    <section
+      className="relative mt-10 mb-8"
+      onMouseEnter={onInteraction}
+      onTouchStart={onInteraction}
     >
-      {SERVICES.map((s) => {
-        const Icon = s.icon;
-        const isActive = s.id === activeId;
+      {/* Section Label */}
+      <div className="mb-6 flex items-center gap-4">
+        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/30">
+          Select a Service
+        </p>
+        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
 
-        return (
-          <button
-            key={s.id}
-            data-tab-id={s.id}
-            role="tab"
-            aria-selected={isActive}
-            onClick={() => {
-              goTo(SERVICES.findIndex((x) => x.id === s.id));
-              if (window.innerWidth < 768) setShouldScroll(true);
-            }}
-            onTouchStart={onInteraction}
-            className={`
-              group relative overflow-hidden rounded-[18px] border transition-all duration-300
-              ${
-                isActive
-                  ? "border-primary/40 bg-white/[0.07]"
-                  : "border-white/[0.05] bg-white/[0.025]"
-              }
-            `}
-            style={{
-              minHeight: "92px",
-              padding: "12px 10px",
-            }}
-          >
+      {/* ── DESKTOP GRID ── */}
+      <div
+        className="hidden md:grid grid-cols-4 xl:grid-cols-6 gap-3"
+        role="tablist"
+        aria-label="Services"
+      >
+        {SERVICES.map((s, i) => {
+          const Icon = s.icon;
+          const isActive = s.id === activeId;
+          const isHovered = hoveredId === s.id;
 
-            {/* ACTIVE GLOW */}
-            {isActive && (
-              <>
-                <motion.div
-                  layoutId="mobile-service-active"
-                  className="absolute inset-0 rounded-[18px]"
-                  transition={{
-                    type: "spring",
-                    stiffness: 360,
-                    damping: 28,
-                  }}
-                />
-
-                <div
-                  className="absolute inset-0 rounded-[18px]"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(35,75,255,0.10) 0%, transparent 70%)",
-                  }}
-                />
-              </>
-            )}
-
-            <div className="relative z-10 flex h-full flex-col justify-between">
-
-              {/* ICON */}
+          return (
+            <button
+              key={s.id}
+              data-tab-id={s.id}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => goTo(i)}
+              onMouseEnter={() => setHoveredId(s.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              className="group relative overflow-hidden rounded-2xl border transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+              style={{
+                minHeight: "148px",
+                borderColor: isActive
+                  ? "rgba(220,38,38,0.45)"
+                  : "rgba(255,255,255,0.055)",
+                background: isActive
+                  ? "rgba(220,38,38,0.07)"
+                  : "rgba(255,255,255,0.025)",
+              }}
+            >
+              {/* Background image with overlay */}
               <div
-                className={`
-                  flex h-8 w-8 items-center justify-center rounded-xl border
-                  ${
-                    isActive
-                      ? "border-primary/30 bg-primary/10"
-                      : "border-white/[0.06] bg-white/[0.03]"
-                  }
-                `}
-              >
-                <Icon
-                  className={`
-                    h-3.5 w-3.5 transition-colors duration-300
-                    ${
-                      isActive
-                        ? "text-primary"
-                        : "text-white/50"
-                    }
-                  `}
-                />
-              </div>
-
-              {/* TITLE */}
-              <p
-                className={`
-                  mt-3 text-[9px] uppercase leading-[1.35] tracking-[0.14em]
-                  ${
-                    isActive
-                      ? "text-white"
-                      : "text-white/58"
-                  }
-                `}
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out"
                 style={{
-                  fontFamily:
-                    "'Barlow Condensed', sans-serif",
-                  fontWeight: 700,
-                }}
-              >
-                {s.title}
-              </p>
-            </div>
-
-            {/* ACTIVE BORDER */}
-            {isActive && (
-              <motion.div
-                layoutId="mobile-selector-border"
-                className="absolute inset-0 rounded-[18px] border border-primary/40 pointer-events-none"
-                transition={{
-                  type: "spring",
-                  stiffness: 360,
-                  damping: 28,
+                  backgroundImage: `url(${s.image})`,
+                  transform: isHovered || isActive ? "scale(1.08)" : "scale(1)",
+                  opacity: isActive ? 0.18 : isHovered ? 0.13 : 0.07,
                 }}
               />
-            )}
-          </button>
-        );
-      })}
-    </div>
-  </div>
-</div>
 
-      {/* ───────────── DESKTOP LAYOUT ───────────── */}
-      <div className="hidden md:block">
-        <div
-          ref={tabsRef}
-          className="grid grid-cols-3 xl:grid-cols-6 gap-4 py-4"
-          role="tablist"
-          aria-label="Services"
-          onMouseEnter={onInteraction}
-          onTouchStart={onInteraction}
-        >
-          {SERVICES.map((s) => {
-            const Icon = s.icon;
-            const isActive = s.id === activeId;
-            return (
-              <button
-                key={s.id}
-                data-tab-id={s.id}
-                role="tab"
-                aria-selected={isActive}
-                onClick={() =>
-                  goTo(SERVICES.findIndex((x) => x.id === s.id))
-                }
-                className={`
-                  group relative flex flex-col items-center gap-2 rounded-2xl border px-4 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300
-                  ${
-                    isActive
-                      ? "border-primary/40 bg-white/[0.07] text-white"
-                      : "border-white/[0.05] bg-white/[0.025] text-muted-foreground hover:bg-secondary/50 hover:text-silver"
-                  }
-                `}
-                style={{ minHeight: "110px" }}
-              >
-                <Icon
-                  className={`h-6 w-6 mb-2 transition-colors duration-300 ${
-                    isActive
-                      ? "text-primary"
-                      : "text-muted-foreground group-hover:text-silver"
-                  }`}
+              {/* Dark gradient overlay */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: isActive
+                    ? "linear-gradient(160deg, rgba(180,20,20,0.15) 0%, rgba(0,0,0,0.65) 100%)"
+                    : "linear-gradient(160deg, rgba(20,20,30,0.3) 0%, rgba(0,0,0,0.72) 100%)",
+                  transition: "background 0.4s ease",
+                }}
+              />
+
+              {/* Active glow ring */}
+              {isActive && (
+                <motion.div
+                  layoutId="desktop-ring"
+                  className="absolute inset-0 rounded-2xl pointer-events-none"
+                  style={{
+                    boxShadow: "inset 0 0 0 1.5px rgba(220,38,38,0.5), 0 0 28px rgba(220,38,38,0.12)",
+                  }}
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
-                <span>{s.title}</span>
-                {isActive && (
-                  <motion.div
-                    layoutId="desktop-active-pill"
-                    className="absolute inset-0 rounded-2xl border border-primary/50 shadow-[0_0_15px_rgba(210,40,40,0.18)] pointer-events-none"
-                    initial={false}
-                    transition={{
-                      type: "spring",
-                      stiffness: 380,
-                      damping: 30,
-                    }}
+              )}
+
+              {/* Content */}
+              <div className="relative z-10 flex flex-col h-full p-4 justify-between">
+                {/* Top — icon */}
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-300"
+                  style={{
+                    borderColor: isActive
+                      ? "rgba(220,38,38,0.4)"
+                      : "rgba(255,255,255,0.08)",
+                    background: isActive
+                      ? "rgba(220,38,38,0.15)"
+                      : "rgba(255,255,255,0.04)",
+                  }}
+                >
+                  <Icon
+                    className="h-4 w-4 transition-colors duration-300"
+                    style={{ color: isActive ? "#ef4444" : "rgba(255,255,255,0.45)" }}
                   />
-                )}
-              </button>
-            );
-          })}
-        </div>
+                </div>
+
+                {/* Bottom — title */}
+                <div className="mt-3">
+                  <p
+                    className="text-left text-[10px] uppercase leading-tight tracking-[0.12em] transition-colors duration-300"
+                    style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontWeight: 700,
+                      color: isActive
+                        ? "rgba(255,255,255,0.95)"
+                        : "rgba(255,255,255,0.52)",
+                    }}
+                  >
+                    {s.title}
+                  </p>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── MOBILE LAYOUT — 3-column grid, all 11 visible ── */}
+      <div
+        className="md:hidden grid gap-2"
+        style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
+        role="tablist"
+        aria-label="Services"
+      >
+        {SERVICES.map((s, i) => {
+          const Icon = s.icon;
+          const isActive = s.id === activeId;
+
+          return (
+            <button
+              key={s.id}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => {
+                goTo(i);
+                const cardSection = document.getElementById("service-card-section");
+                if (cardSection) {
+                  const y =
+                    cardSection.getBoundingClientRect().top +
+                    window.pageYOffset -
+                    90;
+                  window.scrollTo({ top: y, behavior: "smooth" });
+                }
+              }}
+              className="relative overflow-hidden rounded-2xl border transition-all duration-300"
+              style={{
+                height: "96px",
+                borderColor: isActive
+                  ? "rgba(220,38,38,0.45)"
+                  : "rgba(255,255,255,0.06)",
+                background: isActive
+                  ? "rgba(220,38,38,0.07)"
+                  : "rgba(255,255,255,0.025)",
+              }}
+            >
+              {/* BG image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${s.image})`,
+                  opacity: isActive ? 0.18 : 0.08,
+                  transform: isActive ? "scale(1.06)" : "scale(1)",
+                  transition: "all 0.4s ease",
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(160deg, rgba(10,10,16,0.2) 0%, rgba(0,0,0,0.75) 100%)",
+                }}
+              />
+
+              {/* Active ring */}
+              {isActive && (
+                <motion.div
+                  layoutId="mobile-ring"
+                  className="absolute inset-0 rounded-2xl pointer-events-none"
+                  style={{
+                    boxShadow: "inset 0 0 0 1.5px rgba(220,38,38,0.5)",
+                  }}
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              )}
+
+              <div className="relative z-10 flex flex-col h-full p-2.5 justify-between">
+                <div
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border"
+                  style={{
+                    borderColor: isActive
+                      ? "rgba(220,38,38,0.4)"
+                      : "rgba(255,255,255,0.08)",
+                    background: isActive
+                      ? "rgba(220,38,38,0.15)"
+                      : "rgba(255,255,255,0.04)",
+                  }}
+                >
+                  <Icon
+                    className="h-3 w-3"
+                    style={{ color: isActive ? "#ef4444" : "rgba(255,255,255,0.45)" }}
+                  />
+                </div>
+                <p
+                  className="text-left text-[8.5px] uppercase leading-tight tracking-[0.08em]"
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 700,
+                    color: isActive
+                      ? "rgba(255,255,255,0.95)"
+                      : "rgba(255,255,255,0.5)",
+                  }}
+                >
+                  {s.title}
+                </p>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </section>
   );
